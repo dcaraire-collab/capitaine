@@ -394,12 +394,12 @@ function setVerseur(p) {
 }
 
 function horoToH(v) {
-  var s = String(v).replace(',', '.');
+  var s = String(v).trim().replace(',', '.').replace(/[^0-9.]/g, '');
   var parts = s.split('.');
   var hi = parseInt(parts[0], 10);
   if (isNaN(hi)) return null;
   var dec = parts.length > 1 ? parseInt(parts[1].charAt(0), 10) : 0;
-  if (isNaN(dec) || dec > 9) return null;
+  if (isNaN(dec)) dec = 0;
   return hi + dec / 6;
 }
 
