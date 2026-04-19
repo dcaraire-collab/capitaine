@@ -394,10 +394,12 @@ function setVerseur(p) {
 }
 
 function horoToH(v) {
-  var n = parseFloat(v);
-  if (isNaN(n)) return null;
-  var hi = Math.floor(n);
-  var dec = Math.round((n - hi) * 10);
+  var s = String(v).replace(',', '.');
+  var parts = s.split('.');
+  var hi = parseInt(parts[0], 10);
+  if (isNaN(hi)) return null;
+  var dec = parts.length > 1 ? parseInt(parts[1].charAt(0), 10) : 0;
+  if (isNaN(dec) || dec > 9) return null;
   return hi + dec / 6;
 }
 
@@ -432,7 +434,7 @@ function writeRow(values) {
       document.getElementById('auth-notice').classList.add('show');
       return Promise.reject('non_connecte');
     }
-    var readUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent(SHEET_NAME + '!A:A');
+    var readUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent("'" + SHEET_NAME + "'!A:A");
     return fetch(readUrl, { headers: { 'Authorization': 'Bearer ' + token } })
       .then(function(r) {
         if (!r.ok) { if (r.status === 401) { accessToken = null; } return r.text().then(function(t) { return Promise.reject(t); }); }
@@ -440,7 +442,7 @@ function writeRow(values) {
       })
       .then(function(data) {
         var nextRow = (data.values ? data.values.length : 0) + 1;
-        var writeUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent(SHEET_NAME + '!A' + nextRow) + '?valueInputOption=USER_ENTERED';
+        var writeUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent("'" + SHEET_NAME + "'!A" + nextRow) + '?valueInputOption=USER_ENTERED';
         return fetch(writeUrl, {
           method: 'PUT',
           headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
