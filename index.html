@@ -255,14 +255,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
     <div class="slabel">Index horodecimaux</div>
     <div class="card">
-      <div class="row2">
-        <div class="field">
-          <label>Index depart</label>
-          <input type="text" inputmode="decimal" id="idx-dep" placeholder="ex: 280.2" oninput="calcTDV()">
+      <div class="field">
+        <label>Index depart</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="number" inputmode="numeric" id="idx-dep-h" placeholder="280" style="flex:3;padding:11px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-family:DM Sans,sans-serif;-webkit-appearance:none" oninput="calcTDV()">
+          <span style="color:var(--muted);font-size:20px;font-weight:300">.</span>
+          <input type="number" inputmode="numeric" id="idx-dep-d" placeholder="2" min="0" max="9" style="flex:1;padding:11px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-family:DM Sans,sans-serif;-webkit-appearance:none;text-align:center" oninput="calcTDV()">
         </div>
-        <div class="field">
-          <label>Index arrivee</label>
-          <input type="text" inputmode="decimal" id="idx-arr" placeholder="ex: 280.4" oninput="calcTDV()">
+      </div>
+      <div class="field">
+        <label>Index arrivee</label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="number" inputmode="numeric" id="idx-arr-h" placeholder="280" style="flex:3;padding:11px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-family:DM Sans,sans-serif;-webkit-appearance:none" oninput="calcTDV()">
+          <span style="color:var(--muted);font-size:20px;font-weight:300">.</span>
+          <input type="number" inputmode="numeric" id="idx-arr-d" placeholder="4" min="0" max="9" style="flex:1;padding:11px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;font-family:DM Sans,sans-serif;-webkit-appearance:none;text-align:center" oninput="calcTDV()">
         </div>
       </div>
       <div class="result-box" id="calc-box" style="display:none">
@@ -403,19 +409,26 @@ function horoToH(v) {
   return hi + dec / 6;
 }
 
+function getIndex(prefix) {
+  var h = document.getElementById(prefix + '-h').value;
+  var d = document.getElementById(prefix + '-d').value;
+  if (h === '' || d === '') return null;
+  var hi = parseInt(h, 10);
+  var dec = parseInt(d, 10);
+  if (isNaN(hi) || isNaN(dec) || dec < 0 || dec > 9) return null;
+  return hi + dec / 6;
+}
+
 function calcTDV() {
-  var d = document.getElementById('idx-dep').value;
-  var a = document.getElementById('idx-arr').value;
   var box = document.getElementById('calc-box');
-  if (!d || !a) { box.style.display = 'none'; return; }
-  var hd = horoToH(d), ha = horoToH(a);
+  var hd = getIndex('idx-dep'), ha = getIndex('idx-arr');
   if (hd === null || ha === null || ha <= hd) { box.style.display = 'none'; return; }
   var diff = ha - hd;
   var tdv = diff - (1 / 6);
   var min = Math.round(tdv * 60);
   var cout = (tdv * 150).toFixed(2);
-  document.getElementById('r-diff').textContent = diff.toFixed(2) + ' h';
-  document.getElementById('r-tdv').textContent = tdv.toFixed(2) + ' h';
+  document.getElementById('r-diff').textContent = (diff * 6).toFixed(0) + ' min (' + diff.toFixed(2) + ' h)';
+  document.getElementById('r-tdv').textContent = min + ' min';
   document.getElementById('r-min').textContent = min + ' min';
   document.getElementById('r-cout').textContent = parseFloat(cout).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
   box.style.display = 'block';
@@ -461,11 +474,11 @@ function submitVol() {
   var date = document.getElementById('vol-date').value;
   var dep = document.getElementById('ad-dep').value.toUpperCase().trim();
   var arr = document.getElementById('ad-arr').value.toUpperCase().trim();
-  var idxD = document.getElementById('idx-dep').value;
-  var idxA = document.getElementById('idx-arr').value;
-  if (!date || !dep || !arr || !idxD || !idxA) { showMsg('msg-vol', false, 'Remplis tous les champs.'); return; }
-  var hd = horoToH(idxD), ha = horoToH(idxA);
-  if (hd === null || ha === null || ha <= hd) { showMsg('msg-vol', false, 'Les index semblent incorrects.'); return; }
+  var hd = getIndex('idx-dep'), ha = getIndex('idx-arr');
+  var idxD = document.getElementById('idx-dep-h').value + '.' + document.getElementById('idx-dep-d').value;
+  var idxA = document.getElementById('idx-arr-h').value + '.' + document.getElementById('idx-arr-d').value;
+  if (!date || !dep || !arr || hd === null || ha === null) { showMsg('msg-vol', false, 'Remplis tous les champs.'); return; }
+  if (ha <= hd) { showMsg('msg-vol', false, 'Les index semblent incorrects.'); return; }
   var tdv = ha - hd - 1 / 6;
   var min = Math.round(tdv * 60);
   var cout = parseFloat((tdv * 150).toFixed(2));
@@ -477,8 +490,10 @@ function submitVol() {
   btn.disabled = true; btn.textContent = 'Enregistrement...';
   writeRow(row).then(function() {
     showMsg('msg-vol', true, 'Vol enregistre dans Google Sheets !');
-    document.getElementById('idx-dep').value = idxA;
-    document.getElementById('idx-arr').value = '';
+    document.getElementById('idx-dep-h').value = document.getElementById('idx-arr-h').value;
+    document.getElementById('idx-dep-d').value = document.getElementById('idx-arr-d').value;
+    document.getElementById('idx-arr-h').value = '';
+    document.getElementById('idx-arr-d').value = '';
     document.getElementById('calc-box').style.display = 'none';
     btn.disabled = false; btn.textContent = 'Enregistrer le vol';
   }).catch(function(e) {
