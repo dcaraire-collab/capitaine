@@ -416,7 +416,7 @@ function getIndex(prefix) {
   var hi = parseInt(h, 10);
   var dec = parseInt(d, 10);
   if (isNaN(hi) || isNaN(dec) || dec < 0 || dec > 9) return null;
-  return hi + dec / 6;
+  return hi + dec * 6 / 60;
 }
 
 function calcTDV() {
