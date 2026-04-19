@@ -419,10 +419,10 @@ body {
 
   </div>
 
-  <!-- FRAIS / VERSEMENT -->
+  <!-- VERSEMENT -->
   <div id="panel-frais">
 
-    <div class="section-label">Pilote / auteur</div>
+    <div class="section-label">Versement effectué par</div>
     <div class="card">
       <div class="pill-row">
         <div class="pill active" id="fp-guillaume" onclick="setFPilote('GUILLAUME')">Guillaume</div>
@@ -430,53 +430,40 @@ body {
       </div>
     </div>
 
-    <div class="section-label">Opération</div>
+    <div class="section-label">Détails</div>
     <div class="card">
       <div class="field">
         <label>Date</label>
         <input type="date" id="f-date">
       </div>
       <div class="field">
-        <label>Type</label>
-        <select id="f-type">
-          <option value="VERSEMENT PERSO">Versement personnel</option>
-          <option value="SAISIE PAIEMENT PAR COMPTE JOINT">Paiement par compte joint</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Nature</label>
-        <input type="text" id="f-nat" placeholder="ex : Visite 50H, Essence…">
+        <label>Nature <span style="color:var(--muted);font-size:10px">(optionnel)</span></label>
+        <input type="text" id="f-nat" placeholder="ex : Visite 50H, remboursement...">
       </div>
       <div class="field">
         <label>Montant (€)</label>
         <input type="number" id="f-mt" placeholder="0.00" step="0.01">
       </div>
-      <div class="field">
-        <label>Payé par</label>
-        <div class="pill-row" style="margin-top:6px">
-          <div class="pill active" id="fpay-joint" onclick="setFPayeur('joint')">Compte joint</div>
-          <div class="pill" id="fpay-guillaume" onclick="setFPayeur('guillaume')">Guillaume</div>
-          <div class="pill" id="fpay-denis" onclick="setFPayeur('denis')">Denis</div>
-        </div>
-      </div>
     </div>
 
-    <button class="btn-submit" id="btn-frais" onclick="submitFrais()">Enregistrer</button>
+    <button class="btn-submit" id="btn-frais" onclick="submitFrais()">Enregistrer le versement</button>
     <div class="msg" id="msg-frais"></div>
 
   </div>
 
 </div>
 
+</div>
+
 <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleAuth()"></script>
 <script>
 const SPREADSHEET_ID = '1qjSbcBqRxNz2O64GFg80uk67kmK3CBwuUjpCwnEUV1s';
-const SHEET_NAME = 'EXPLOITATION CAPITAINE V2 INTEG';
+const SHEET_NAME = 'GESTION PILOTE';
 const CLIENT_ID = '305648837121-32sao69dfg9i2qlqo7c20crgicbk21r0.apps.googleusercontent.com';
 const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
 
 let pilote = 'GUILLAUME', payeur = 'joint';
-let fPilote = 'GUILLAUME', fPayeur = 'joint';
+let fPilote = 'GUILLAUME';
 let showFrais = false;
 let tokenClient = null, accessToken = null;
 let pendingResolve = null;
@@ -583,9 +570,17 @@ async function appendRow(values) {
     document.getElementById('auth-notice').classList.add('show');
     throw 'non_connecte';
   }
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME + '!A1')}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
-  const resp = await fetch(url, {
-    method: 'POST',
+  const readUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME + '!A:A')}`;
+  const readResp = await fetch(readUrl, { headers: { 'Authorization': 'Bearer ' + token } });
+  if (!readResp.ok) {
+    if (readResp.status === 401) { accessToken = null; throw 'token_expire'; }
+    throw await readResp.text();
+  }
+  const readData = await readResp.json();
+  const firstEmptyRow = (readData.values ? readData.values.length : 0) + 1;
+  const writeUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME + '!A' + firstEmptyRow)}?valueInputOption=USER_ENTERED`;
+  const resp = await fetch(writeUrl, {
+    method: 'PUT',
     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
     body: JSON.stringify({ values: [values], majorDimension: 'ROWS' })
   });
@@ -649,29 +644,28 @@ async function submitVol() {
 async function submitFrais() {
   const btn = document.getElementById('btn-frais');
   const date = document.getElementById('f-date').value;
-  const type = document.getElementById('f-type').value;
   const nat = document.getElementById('f-nat').value.trim();
   const mt = parseFloat(document.getElementById('f-mt').value);
-  if (!date || !nat || isNaN(mt) || mt <= 0) { showMsg('msg-frais', false, 'Remplis tous les champs.'); return; }
-  let versG = '', versD = '', fraisJoint = '';
-  if (fPayeur === 'guillaume') versG = mt;
-  else if (fPayeur === 'denis') versD = mt;
-  else fraisJoint = mt;
+  if (!date || isNaN(mt) || mt <= 0) { showMsg('msg-frais', false, 'Remplis la date et le montant.'); return; }
+  const versG = fPilote === 'GUILLAUME' ? mt : '';
+  const versD = fPilote === 'DENIS' ? mt : '';
   const [y, m2, d2] = date.split('-');
-  const dateFR = `${d2}/${m2}/${y}`;
-  const row = [fPilote, dateFR, type, '', '', '', '', 0, 0, 0, 0, nat, fraisJoint, versG, versD];
-  btn.disabled = true; btn.textContent = 'Enregistrement…';
+  const dateFR = d2 + '/' + m2 + '/' + y;
+  // col: A=pilote B=date C=type D E F G H=0 I=0 J=0 K=0 L=nature M='' N=versG O=versD
+  const row = [fPilote, dateFR, 'VERSEMENT PERSO', '', '', '', '', 0, 0, 0, 0, nat, '', versG, versD];
+  btn.disabled = true; btn.textContent = 'Enregistrement...';
   try {
     await appendRow(row);
-    showMsg('msg-frais', true, '✓ Ligne ajoutée dans Google Sheets !');
+    showMsg('msg-frais', true, 'Versement enregistre dans Google Sheets !');
     document.getElementById('f-nat').value = '';
     document.getElementById('f-mt').value = '';
   } catch(e) {
-    if (e === 'non_connecte') showMsg('msg-frais', false, 'Connecte-toi d\'abord via le bouton en haut à droite.');
-    else if (e === 'token_expire') showMsg('msg-frais', false, 'Session expirée, reconnecte-toi.');
+    if (e === 'non_connecte') showMsg('msg-frais', false, 'Connecte-toi via le bouton en haut a droite.');
+    else if (e === 'token_expire') showMsg('msg-frais', false, 'Session expiree, reconnecte-toi.');
     else showMsg('msg-frais', false, 'Erreur : ' + e);
   }
-  btn.disabled = false; btn.textContent = 'Enregistrer';
+  btn.disabled = false; btn.textContent = 'Enregistrer le versement';
+}
 }
 </script>
 </body>
