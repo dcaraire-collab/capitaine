@@ -11,7 +11,6 @@
   --surface: #181c26;
   --surface2: #1e2333;
   --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
   --text: #f0f2f7;
   --muted: #7a8099;
   --accent: #4f8ef7;
@@ -25,52 +24,33 @@
   --radius: 12px;
   --radius-sm: 8px;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding: 0;
-}
-
-/* Header */
 .header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 16px 20px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 .header-icon {
-  width: 32px; height: 32px;
+  width: 30px; height: 30px;
   background: var(--accent-dim);
   border: 1px solid rgba(79,142,247,0.3);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-}
-.header-title {
-  font-family: 'DM Mono', monospace;
   font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--text);
 }
-.header-sub {
-  font-size: 11px;
-  color: var(--muted);
-  font-family: 'DM Mono', monospace;
-}
+.header-title { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
+.header-sub { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
 .auth-btn {
   margin-left: auto;
-  padding: 7px 14px;
+  padding: 6px 12px;
   background: var(--accent-dim);
   border: 1px solid rgba(79,142,247,0.4);
   border-radius: var(--radius-sm);
@@ -79,92 +59,68 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   cursor: pointer;
-  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.auth-btn:hover { background: rgba(79,142,247,0.25); }
-.auth-btn.connected {
-  background: var(--green-dim);
-  border-color: rgba(62,207,142,0.4);
-  color: var(--green);
-  cursor: default;
-}
+.auth-btn.connected { background: var(--green-dim); border-color: rgba(62,207,142,0.4); color: var(--green); }
 
-/* Tabs */
 .tabs {
   display: flex;
-  padding: 12px 16px 0;
-  gap: 4px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
+  padding: 0 16px;
 }
 .tab {
-  padding: 9px 18px;
-  font-size: 13px;
+  padding: 12px 20px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--muted);
   cursor: pointer;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  border: 1px solid transparent;
-  border-bottom: none;
-  transition: all .15s;
-  position: relative;
-  bottom: -1px;
+  border-bottom: 2px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
-.tab:hover { color: var(--text); }
-.tab.active {
-  color: var(--accent);
-  background: var(--bg);
-  border-color: var(--border);
-  border-bottom-color: var(--bg);
-}
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-/* Content */
-.content { padding: 20px 16px 40px; max-width: 480px; margin: 0 auto; }
+.content { padding: 16px 16px 60px; max-width: 520px; margin: 0 auto; }
 
-/* Section label */
-.section-label {
+.slabel {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.1em;
   color: var(--muted);
   text-transform: uppercase;
-  margin-bottom: 8px;
-  margin-top: 20px;
+  margin: 16px 0 8px;
 }
 
-/* Cards */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 14px;
   margin-bottom: 10px;
 }
 
-/* Pill selector */
-.pill-row { display: flex; gap: 6px; }
+.pill-row { display: flex; gap: 8px; }
 .pill {
   flex: 1;
-  padding: 10px 8px;
+  padding: 12px 8px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--muted);
   cursor: pointer;
-  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
-.pill:hover { border-color: var(--border2); color: var(--text); }
-.pill.active {
-  background: var(--accent-dim);
-  border-color: rgba(79,142,247,0.5);
-  color: var(--accent);
-}
+.pill.active { background: var(--accent-dim); border-color: rgba(79,142,247,0.5); color: var(--accent); }
 
-/* Form fields */
-.field { margin-bottom: 14px; }
+.field { margin-bottom: 12px; }
 .field:last-child { margin-bottom: 0; }
 .field label {
   display: block;
@@ -173,172 +129,113 @@ body {
   color: var(--muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .field input, .field select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 12px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
-  font-size: 15px;
+  font-size: 16px;
   font-family: 'DM Sans', sans-serif;
-  transition: border-color .15s;
   -webkit-appearance: none;
+  appearance: none;
 }
-.field input:focus, .field select:focus {
-  outline: none;
-  border-color: rgba(79,142,247,0.6);
-  box-shadow: 0 0 0 3px rgba(79,142,247,0.1);
-}
+.field input:focus, .field select:focus { outline: none; border-color: rgba(79,142,247,0.6); }
 .field input::placeholder { color: var(--muted); }
-.field select option { background: var(--surface2); }
 
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-/* Result box */
 .result-box {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-top: 14px;
-  display: none;
+  padding: 12px;
+  margin-top: 12px;
 }
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 4px 0;
-  font-size: 13px;
-}
-.result-row .lbl { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 11px; }
-.result-row .val { font-weight: 500; font-family: 'DM Mono', monospace; }
-.result-divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
-.result-big {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 4px 0;
-}
-.result-big .lbl { color: var(--muted); font-size: 12px; }
-.result-big .num {
-  font-family: 'DM Mono', monospace;
-  font-size: 26px;
-  font-weight: 500;
-  color: var(--accent);
-}
-.result-big .cost {
-  font-family: 'DM Mono', monospace;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--green);
-}
+.rrow { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; font-size: 13px; }
+.rrow .rl { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 11px; }
+.rrow .rv { font-weight: 500; font-family: 'DM Mono', monospace; }
+.rdiv { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+.rbig { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; }
+.rbig .rl { color: var(--muted); font-size: 12px; }
+.rbig .rn { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; color: var(--accent); }
+.rbig .rc { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--green); }
 
-/* Frais toggle */
-.frais-toggle {
-  font-size: 12px;
-  color: var(--accent);
-  cursor: pointer;
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 0.02em;
-  margin-top: 4px;
-  display: inline-block;
-  padding: 6px 0;
-}
-#frais-section { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-
-/* Submit button */
-.btn-submit {
+.btn-primary {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   background: var(--accent);
   color: #fff;
   border: none;
   border-radius: var(--radius);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: all .15s;
-  margin-top: 6px;
-  letter-spacing: 0.01em;
-}
-.btn-submit:hover { background: var(--accent-dark); }
-.btn-submit:active { transform: scale(0.99); }
-.btn-submit:disabled {
-  background: var(--surface2);
-  color: var(--muted);
-  cursor: default;
-  transform: none;
-}
-
-/* Messages */
-.msg {
-  padding: 11px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
   margin-top: 8px;
-  display: none;
-  font-family: 'DM Mono', monospace;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
+.btn-primary:active { opacity: 0.85; }
+.btn-primary:disabled { background: var(--surface2); color: var(--muted); }
+
+.msg { padding: 10px 12px; border-radius: var(--radius-sm); font-size: 13px; margin-top: 8px; display: none; font-family: 'DM Mono', monospace; line-height: 1.5; }
 .msg.ok { background: var(--green-dim); color: var(--green); border: 1px solid rgba(62,207,142,0.2); display: block; }
 .msg.err { background: var(--red-dim); color: var(--red); border: 1px solid rgba(247,111,111,0.2); display: block; }
 
-/* Auth notice */
 .auth-notice {
   background: rgba(247,194,79,0.08);
   border: 1px solid rgba(247,194,79,0.25);
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  padding: 12px;
   font-size: 12px;
   color: var(--amber);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   font-family: 'DM Mono', monospace;
   line-height: 1.6;
   display: none;
 }
 .auth-notice.show { display: block; }
-
-/* Panels */
-#panel-frais { display: none; }
+.opt { color: var(--muted); font-size: 10px; margin-left: 4px; text-transform: none; letter-spacing: 0; font-family: 'DM Mono', monospace; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-icon">✈</div>
+  <div class="header-icon">&#9992;</div>
   <div>
     <div class="header-title">Capitaine</div>
-    <div class="header-sub">F-BNJE · Carnet de vol</div>
+    <div class="header-sub">F-BNJE &middot; Carnet de vol</div>
   </div>
   <button class="auth-btn" id="auth-btn" onclick="handleAuth()">Connexion Google</button>
 </div>
 
 <div class="tabs">
-  <div class="tab active" id="tab-vol" onclick="switchTab('vol')">Vol</div>
-  <div class="tab" id="tab-frais" onclick="switchTab('frais')">Versement / Frais</div>
+  <div class="tab active" id="tab-vol" onclick="showTab('vol')">Vol</div>
+  <div class="tab" id="tab-vers" onclick="showTab('vers')">Versement</div>
 </div>
 
 <div class="content">
 
   <div class="auth-notice" id="auth-notice">
-    ⚠ Clique sur "Connexion Google" en haut à droite pour autoriser l'accès au tableur.
+    Clique sur "Connexion Google" en haut a droite pour autoriser l'acces au tableur.
   </div>
 
-  <!-- VOL -->
+  <!-- PANEL VOL -->
   <div id="panel-vol">
 
-    <div class="section-label">Pilote</div>
+    <div class="slabel">Pilote</div>
     <div class="card">
       <div class="pill-row">
-        <div class="pill active" id="p-guillaume" onclick="setPilote('GUILLAUME')">Guillaume</div>
-        <div class="pill" id="p-denis" onclick="setPilote('DENIS')">Denis</div>
+        <div class="pill active" id="pv-g" onclick="setPilote('GUILLAUME')">Guillaume</div>
+        <div class="pill" id="pv-d" onclick="setPilote('DENIS')">Denis</div>
       </div>
     </div>
 
-    <div class="section-label">Informations du vol</div>
+    <div class="slabel">Informations du vol</div>
     <div class="card">
       <div class="field">
         <label>Date</label>
@@ -346,159 +243,130 @@ body {
       </div>
       <div class="row2">
         <div class="field">
-          <label>Départ</label>
+          <label>Depart</label>
           <input type="text" id="ad-dep" placeholder="LFBA" maxlength="4" oninput="this.value=this.value.toUpperCase()">
         </div>
         <div class="field">
-          <label>Arrivée</label>
+          <label>Arrivee</label>
           <input type="text" id="ad-arr" placeholder="LFCX" maxlength="4" oninput="this.value=this.value.toUpperCase()">
         </div>
       </div>
     </div>
 
-    <div class="section-label">Index horodécimaux</div>
+    <div class="slabel">Index horodecimaux</div>
     <div class="card">
       <div class="row2">
         <div class="field">
-          <label>Index départ</label>
-          <input type="number" id="idx-dep" placeholder="ex : 68.6" step="0.1" oninput="calcTDV()">
+          <label>Index depart</label>
+          <input type="number" id="idx-dep" placeholder="68.6" step="0.1" oninput="calcTDV()">
         </div>
         <div class="field">
-          <label>Index arrivée</label>
-          <input type="number" id="idx-arr" placeholder="ex : 69.4" step="0.1" oninput="calcTDV()">
+          <label>Index arrivee</label>
+          <input type="number" id="idx-arr" placeholder="69.4" step="0.1" oninput="calcTDV()">
         </div>
       </div>
-      <div class="result-box" id="calc-box">
-        <div class="result-row">
-          <span class="lbl">Différence brute</span>
-          <span class="val" id="r-diff">—</span>
-        </div>
-        <div class="result-row">
-          <span class="lbl">− 6 min (block time)</span>
-          <span class="val" style="color:var(--red)">− 0,1 h</span>
-        </div>
-        <hr class="result-divider">
-        <div class="result-big">
-          <span class="lbl">Temps de vol</span>
-          <span class="num" id="r-tdv">—</span>
-        </div>
-        <div class="result-row">
-          <span class="lbl">En minutes</span>
-          <span class="val" id="r-min">—</span>
-        </div>
-        <hr class="result-divider">
-        <div class="result-big">
-          <span class="lbl">Coût (150 €/h)</span>
-          <span class="cost" id="r-cout">—</span>
-        </div>
-      </div>
-
-      <span class="frais-toggle" id="frais-lbl" onclick="toggleFrais()">+ Ajouter des frais</span>
-      <div id="frais-section">
-        <div class="field">
-          <label>Nature des frais</label>
-          <input type="text" id="frais-nat" placeholder="ex : Essence Castelsarrasin">
-        </div>
-        <div class="field">
-          <label>Montant (€)</label>
-          <input type="number" id="frais-mt" placeholder="0.00" step="0.01">
-        </div>
-        <div class="field">
-          <label>Payé par</label>
-          <div class="pill-row" style="margin-top:6px">
-            <div class="pill active" id="pay-joint" onclick="setPayeur('joint')">Compte joint</div>
-            <div class="pill" id="pay-guillaume" onclick="setPayeur('guillaume')">Guillaume</div>
-            <div class="pill" id="pay-denis" onclick="setPayeur('denis')">Denis</div>
-          </div>
-        </div>
+      <div class="result-box" id="calc-box" style="display:none">
+        <div class="rrow"><span class="rl">Difference brute</span><span class="rv" id="r-diff">-</span></div>
+        <div class="rrow"><span class="rl">- 6 min (block time)</span><span class="rv" style="color:var(--red)">- 0.1 h</span></div>
+        <hr class="rdiv">
+        <div class="rbig"><span class="rl">Temps de vol</span><span class="rn" id="r-tdv">-</span></div>
+        <div class="rrow"><span class="rl">En minutes</span><span class="rv" id="r-min">-</span></div>
+        <hr class="rdiv">
+        <div class="rbig"><span class="rl">Cout (150 EUR/h)</span><span class="rc" id="r-cout">-</span></div>
       </div>
     </div>
 
-    <button class="btn-submit" id="btn-vol" onclick="submitVol()">Enregistrer le vol</button>
+    <button class="btn-primary" id="btn-vol" onclick="submitVol()">Enregistrer le vol</button>
     <div class="msg" id="msg-vol"></div>
 
   </div>
 
-  <!-- VERSEMENT -->
-  <div id="panel-frais">
+  <!-- PANEL VERSEMENT -->
+  <div id="panel-vers" style="display:none">
 
-    <div class="section-label">Versement effectué par</div>
+    <div class="slabel">Versement effectue par</div>
     <div class="card">
       <div class="pill-row">
-        <div class="pill active" id="fp-guillaume" onclick="setFPilote('GUILLAUME')">Guillaume</div>
-        <div class="pill" id="fp-denis" onclick="setFPilote('DENIS')">Denis</div>
+        <div class="pill active" id="pp-g" onclick="setVerseur('GUILLAUME')">Guillaume</div>
+        <div class="pill" id="pp-d" onclick="setVerseur('DENIS')">Denis</div>
       </div>
     </div>
 
-    <div class="section-label">Détails</div>
+    <div class="slabel">Details</div>
     <div class="card">
       <div class="field">
         <label>Date</label>
-        <input type="date" id="f-date">
+        <input type="date" id="v-date">
       </div>
       <div class="field">
-        <label>Nature <span style="color:var(--muted);font-size:10px">(optionnel)</span></label>
-        <input type="text" id="f-nat" placeholder="ex : Visite 50H, remboursement...">
+        <label>Nature <span class="opt">(optionnel)</span></label>
+        <input type="text" id="v-nat" placeholder="ex : Visite 50H, remboursement...">
       </div>
       <div class="field">
-        <label>Montant (€)</label>
-        <input type="number" id="f-mt" placeholder="0.00" step="0.01">
+        <label>Montant (EUR)</label>
+        <input type="number" id="v-mt" placeholder="0.00" step="0.01">
       </div>
     </div>
 
-    <button class="btn-submit" id="btn-frais" onclick="submitFrais()">Enregistrer le versement</button>
-    <div class="msg" id="msg-frais"></div>
+    <button class="btn-primary" id="btn-vers" onclick="submitVers()">Enregistrer le versement</button>
+    <div class="msg" id="msg-vers"></div>
 
   </div>
 
 </div>
 
-</div>
-
-<script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleAuth()"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-const SPREADSHEET_ID = '1qjSbcBqRxNz2O64GFg80uk67kmK3CBwuUjpCwnEUV1s';
-const SHEET_NAME = 'GESTION PILOTE';
-const CLIENT_ID = '305648837121-32sao69dfg9i2qlqo7c20crgicbk21r0.apps.googleusercontent.com';
-const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
+var SPREADSHEET_ID = '1qjSbcBqRxNz2O64GFg80uk67kmK3CBwuUjpCwnEUV1s';
+var SHEET_NAME = 'GESTION PILOTE';
+var CLIENT_ID = '305648837121-32sao69dfg9i2qlqo7c20crgicbk21r0.apps.googleusercontent.com';
+var SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
 
-let pilote = 'GUILLAUME', payeur = 'joint';
-let fPilote = 'GUILLAUME';
-let showFrais = false;
-let tokenClient = null, accessToken = null;
-let pendingResolve = null;
+var pilote = 'GUILLAUME';
+var verseur = 'GUILLAUME';
+var tokenClient = null;
+var accessToken = null;
+var pendingResolve = null;
 
-// Init dates
-(function(){
-  const today = new Date().toISOString().split('T')[0];
+function initDates() {
+  var today = new Date().toISOString().split('T')[0];
   document.getElementById('vol-date').value = today;
-  document.getElementById('f-date').value = today;
-})();
-
-function initGoogleAuth() {
-  if (typeof google === 'undefined' || !google.accounts) { setTimeout(initGoogleAuth, 300); return; }
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPE,
-    callback: (resp) => {
-      if (resp.error) { if (pendingResolve) { pendingResolve(null); pendingResolve = null; } return; }
-      accessToken = resp.access_token;
-      document.getElementById('auth-btn').textContent = '✓ Connecté';
-      document.getElementById('auth-btn').classList.add('connected');
-      document.getElementById('auth-notice').classList.remove('show');
-      if (pendingResolve) { pendingResolve(accessToken); pendingResolve = null; }
-    }
-  });
+  document.getElementById('v-date').value = today;
 }
+initDates();
+
+function tryInitAuth() {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPE,
+      callback: function(resp) {
+        if (resp.error) {
+          if (pendingResolve) { pendingResolve(null); pendingResolve = null; }
+          return;
+        }
+        accessToken = resp.access_token;
+        var btn = document.getElementById('auth-btn');
+        btn.textContent = 'Connecte';
+        btn.classList.add('connected');
+        document.getElementById('auth-notice').classList.remove('show');
+        if (pendingResolve) { pendingResolve(accessToken); pendingResolve = null; }
+      }
+    });
+  } else {
+    setTimeout(tryInitAuth, 500);
+  }
+}
+setTimeout(tryInitAuth, 300);
 
 function handleAuth() {
   if (accessToken) return;
-  if (!tokenClient) { alert('API Google en cours de chargement, réessaie dans 2 secondes.'); return; }
+  if (!tokenClient) { alert('API Google en cours de chargement, reessaie dans 2 secondes.'); return; }
   tokenClient.requestAccessToken({ prompt: 'consent' });
 }
 
 function getToken() {
-  return new Promise((res) => {
+  return new Promise(function(res) {
     if (accessToken) { res(accessToken); return; }
     if (!tokenClient) { res(null); return; }
     pendingResolve = res;
@@ -506,166 +374,142 @@ function getToken() {
   });
 }
 
-function switchTab(t) {
-  ['vol','frais'].forEach(x => {
-    document.getElementById('tab-'+x).classList.toggle('active', x===t);
-    document.getElementById('panel-'+x).style.display = x===t ? 'block' : 'none';
-  });
+function showTab(t) {
+  document.getElementById('tab-vol').className = 'tab' + (t === 'vol' ? ' active' : '');
+  document.getElementById('tab-vers').className = 'tab' + (t === 'vers' ? ' active' : '');
+  document.getElementById('panel-vol').style.display = t === 'vol' ? 'block' : 'none';
+  document.getElementById('panel-vers').style.display = t === 'vers' ? 'block' : 'none';
 }
 
 function setPilote(p) {
   pilote = p;
-  document.getElementById('p-guillaume').classList.toggle('active', p==='GUILLAUME');
-  document.getElementById('p-denis').classList.toggle('active', p==='DENIS');
-}
-function setPayeur(p) {
-  payeur = p;
-  ['joint','guillaume','denis'].forEach(x => document.getElementById('pay-'+x).classList.toggle('active', x===p));
-}
-function setFPilote(p) {
-  fPilote = p;
-  document.getElementById('fp-guillaume').classList.toggle('active', p==='GUILLAUME');
-  document.getElementById('fp-denis').classList.toggle('active', p==='DENIS');
-}
-function setFPayeur(p) {
-  fPayeur = p;
-  ['joint','guillaume','denis'].forEach(x => document.getElementById('fpay-'+x).classList.toggle('active', x===p));
+  document.getElementById('pv-g').className = 'pill' + (p === 'GUILLAUME' ? ' active' : '');
+  document.getElementById('pv-d').className = 'pill' + (p === 'DENIS' ? ' active' : '');
 }
 
-function toggleFrais() {
-  showFrais = !showFrais;
-  document.getElementById('frais-section').style.display = showFrais ? 'block' : 'none';
-  document.getElementById('frais-lbl').textContent = showFrais ? '− Masquer les frais' : '+ Ajouter des frais';
+function setVerseur(p) {
+  verseur = p;
+  document.getElementById('pp-g').className = 'pill' + (p === 'GUILLAUME' ? ' active' : '');
+  document.getElementById('pp-d').className = 'pill' + (p === 'DENIS' ? ' active' : '');
 }
 
 function horoToH(v) {
-  const n = parseFloat(v);
+  var n = parseFloat(v);
   if (isNaN(n)) return null;
-  const hi = Math.floor(n);
-  const dec = Math.round((n - hi) * 10);
+  var hi = Math.floor(n);
+  var dec = Math.round((n - hi) * 10);
   return hi + dec / 6;
 }
 
 function calcTDV() {
-  const d = document.getElementById('idx-dep').value;
-  const a = document.getElementById('idx-arr').value;
-  const box = document.getElementById('calc-box');
+  var d = document.getElementById('idx-dep').value;
+  var a = document.getElementById('idx-arr').value;
+  var box = document.getElementById('calc-box');
   if (!d || !a) { box.style.display = 'none'; return; }
-  const hd = horoToH(d), ha = horoToH(a);
+  var hd = horoToH(d), ha = horoToH(a);
   if (hd === null || ha === null || ha <= hd) { box.style.display = 'none'; return; }
-  const diff = ha - hd;
-  const tdv = diff - (1/6);
-  const min = Math.round(tdv * 60);
-  const cout = (tdv * 150).toFixed(2);
+  var diff = ha - hd;
+  var tdv = diff - (1 / 6);
+  var min = Math.round(tdv * 60);
+  var cout = (tdv * 150).toFixed(2);
   document.getElementById('r-diff').textContent = diff.toFixed(2) + ' h';
   document.getElementById('r-tdv').textContent = tdv.toFixed(2) + ' h';
   document.getElementById('r-min').textContent = min + ' min';
-  document.getElementById('r-cout').textContent = parseFloat(cout).toLocaleString('fr-FR', {style:'currency', currency:'EUR'});
+  document.getElementById('r-cout').textContent = parseFloat(cout).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
   box.style.display = 'block';
 }
 
-async function appendRow(values) {
-  const token = await getToken();
-  if (!token) {
-    document.getElementById('auth-notice').classList.add('show');
-    throw 'non_connecte';
-  }
-  const readUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME + '!A:A')}`;
-  const readResp = await fetch(readUrl, { headers: { 'Authorization': 'Bearer ' + token } });
-  if (!readResp.ok) {
-    if (readResp.status === 401) { accessToken = null; throw 'token_expire'; }
-    throw await readResp.text();
-  }
-  const readData = await readResp.json();
-  const firstEmptyRow = (readData.values ? readData.values.length : 0) + 1;
-  const writeUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SHEET_NAME + '!A' + firstEmptyRow)}?valueInputOption=USER_ENTERED`;
-  const resp = await fetch(writeUrl, {
-    method: 'PUT',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ values: [values], majorDimension: 'ROWS' })
-  });
-  if (!resp.ok) {
-    if (resp.status === 401) { accessToken = null; throw 'token_expire'; }
-    throw await resp.text();
-  }
-  return resp.json();
-}
-
 function showMsg(id, ok, text) {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   el.className = 'msg ' + (ok ? 'ok' : 'err');
   el.textContent = text;
-  if (ok) setTimeout(() => { el.style.display = 'none'; }, 5000);
+  if (ok) setTimeout(function() { el.style.display = 'none'; }, 5000);
 }
 
-async function submitVol() {
-  const btn = document.getElementById('btn-vol');
-  const date = document.getElementById('vol-date').value;
-  const dep = document.getElementById('ad-dep').value.toUpperCase().trim();
-  const arr = document.getElementById('ad-arr').value.toUpperCase().trim();
-  const idxD = document.getElementById('idx-dep').value;
-  const idxA = document.getElementById('idx-arr').value;
-  if (!date || !dep || !arr || !idxD || !idxA) { showMsg('msg-vol', false, 'Remplis tous les champs obligatoires.'); return; }
-  const hd = horoToH(idxD), ha = horoToH(idxA);
+function writeRow(values) {
+  return getToken().then(function(token) {
+    if (!token) {
+      document.getElementById('auth-notice').classList.add('show');
+      return Promise.reject('non_connecte');
+    }
+    var readUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent(SHEET_NAME + '!A:A');
+    return fetch(readUrl, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(function(r) {
+        if (!r.ok) { if (r.status === 401) { accessToken = null; } return r.text().then(function(t) { return Promise.reject(t); }); }
+        return r.json();
+      })
+      .then(function(data) {
+        var nextRow = (data.values ? data.values.length : 0) + 1;
+        var writeUrl = 'https://sheets.googleapis.com/v4/spreadsheets/' + SPREADSHEET_ID + '/values/' + encodeURIComponent(SHEET_NAME + '!A' + nextRow) + '?valueInputOption=USER_ENTERED';
+        return fetch(writeUrl, {
+          method: 'PUT',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ values: [values], majorDimension: 'ROWS' })
+        });
+      })
+      .then(function(r) {
+        if (!r.ok) { if (r.status === 401) { accessToken = null; return Promise.reject('token_expire'); } return r.text().then(function(t) { return Promise.reject(t); }); }
+        return r.json();
+      });
+  });
+}
+
+function submitVol() {
+  var btn = document.getElementById('btn-vol');
+  var date = document.getElementById('vol-date').value;
+  var dep = document.getElementById('ad-dep').value.toUpperCase().trim();
+  var arr = document.getElementById('ad-arr').value.toUpperCase().trim();
+  var idxD = document.getElementById('idx-dep').value;
+  var idxA = document.getElementById('idx-arr').value;
+  if (!date || !dep || !arr || !idxD || !idxA) { showMsg('msg-vol', false, 'Remplis tous les champs.'); return; }
+  var hd = horoToH(idxD), ha = horoToH(idxA);
   if (hd === null || ha === null || ha <= hd) { showMsg('msg-vol', false, 'Les index semblent incorrects.'); return; }
-  const tdv = ha - hd - 1/6;
-  const min = Math.round(tdv * 60);
-  const cout = parseFloat((tdv * 150).toFixed(2));
-  const impG = pilote === 'GUILLAUME' ? cout : 0;
-  const impD = pilote === 'DENIS' ? cout : 0;
-  const fNat = showFrais ? document.getElementById('frais-nat').value : '';
-  const fMtRaw = showFrais ? parseFloat(document.getElementById('frais-mt').value) : NaN;
-  const fMt = isNaN(fMtRaw) ? '' : fMtRaw;
-  let versG = '', versD = '', fraisJoint = '';
-  if (showFrais && fMt !== '') {
-    if (payeur === 'guillaume') versG = fMt;
-    else if (payeur === 'denis') versD = fMt;
-    else fraisJoint = fMt;
-  }
-  const [y, m, d2] = date.split('-');
-  const dateFR = `${d2}/${m}/${y}`;
-  const row = [pilote, dateFR, 'VOL', dep, arr, idxD, idxA, min, cout, impG, impD, fNat, fraisJoint, versG, versD];
-  btn.disabled = true; btn.textContent = 'Enregistrement…';
-  try {
-    await appendRow(row);
-    showMsg('msg-vol', true, '✓ Ligne ajoutée dans Google Sheets !');
+  var tdv = ha - hd - 1 / 6;
+  var min = Math.round(tdv * 60);
+  var cout = parseFloat((tdv * 150).toFixed(2));
+  var impG = pilote === 'GUILLAUME' ? cout : 0;
+  var impD = pilote === 'DENIS' ? cout : 0;
+  var p = date.split('-');
+  var dateFR = p[2] + '/' + p[1] + '/' + p[0];
+  var row = [pilote, dateFR, 'VOL', dep, arr, idxD, idxA, min, cout, impG, impD, '', '', '', ''];
+  btn.disabled = true; btn.textContent = 'Enregistrement...';
+  writeRow(row).then(function() {
+    showMsg('msg-vol', true, 'Vol enregistre dans Google Sheets !');
     document.getElementById('idx-dep').value = idxA;
     document.getElementById('idx-arr').value = '';
     document.getElementById('calc-box').style.display = 'none';
-    if (showFrais) { toggleFrais(); document.getElementById('frais-nat').value = ''; document.getElementById('frais-mt').value = ''; }
-  } catch(e) {
-    if (e === 'non_connecte') showMsg('msg-vol', false, 'Connecte-toi d\'abord via le bouton en haut à droite.');
-    else if (e === 'token_expire') showMsg('msg-vol', false, 'Session expirée, reconnecte-toi.');
+    btn.disabled = false; btn.textContent = 'Enregistrer le vol';
+  }).catch(function(e) {
+    if (e === 'non_connecte') showMsg('msg-vol', false, 'Connecte-toi via le bouton en haut.');
+    else if (e === 'token_expire') showMsg('msg-vol', false, 'Session expiree, reconnecte-toi.');
     else showMsg('msg-vol', false, 'Erreur : ' + e);
-  }
-  btn.disabled = false; btn.textContent = 'Enregistrer le vol';
+    btn.disabled = false; btn.textContent = 'Enregistrer le vol';
+  });
 }
 
-async function submitFrais() {
-  const btn = document.getElementById('btn-frais');
-  const date = document.getElementById('f-date').value;
-  const nat = document.getElementById('f-nat').value.trim();
-  const mt = parseFloat(document.getElementById('f-mt').value);
-  if (!date || isNaN(mt) || mt <= 0) { showMsg('msg-frais', false, 'Remplis la date et le montant.'); return; }
-  const versG = fPilote === 'GUILLAUME' ? mt : '';
-  const versD = fPilote === 'DENIS' ? mt : '';
-  const [y, m2, d2] = date.split('-');
-  const dateFR = d2 + '/' + m2 + '/' + y;
-  // col: A=pilote B=date C=type D E F G H=0 I=0 J=0 K=0 L=nature M='' N=versG O=versD
-  const row = [fPilote, dateFR, 'VERSEMENT PERSO', '', '', '', '', 0, 0, 0, 0, nat, '', versG, versD];
+function submitVers() {
+  var btn = document.getElementById('btn-vers');
+  var date = document.getElementById('v-date').value;
+  var nat = document.getElementById('v-nat').value.trim();
+  var mt = parseFloat(document.getElementById('v-mt').value);
+  if (!date || isNaN(mt) || mt <= 0) { showMsg('msg-vers', false, 'Remplis la date et le montant.'); return; }
+  var versG = verseur === 'GUILLAUME' ? mt : '';
+  var versD = verseur === 'DENIS' ? mt : '';
+  var p = date.split('-');
+  var dateFR = p[2] + '/' + p[1] + '/' + p[0];
+  var row = [verseur, dateFR, 'VERSEMENT PERSO', '', '', '', '', 0, 0, 0, 0, nat, '', versG, versD];
   btn.disabled = true; btn.textContent = 'Enregistrement...';
-  try {
-    await appendRow(row);
-    showMsg('msg-frais', true, 'Versement enregistre dans Google Sheets !');
-    document.getElementById('f-nat').value = '';
-    document.getElementById('f-mt').value = '';
-  } catch(e) {
-    if (e === 'non_connecte') showMsg('msg-frais', false, 'Connecte-toi via le bouton en haut a droite.');
-    else if (e === 'token_expire') showMsg('msg-frais', false, 'Session expiree, reconnecte-toi.');
-    else showMsg('msg-frais', false, 'Erreur : ' + e);
-  }
-  btn.disabled = false; btn.textContent = 'Enregistrer le versement';
-}
+  writeRow(row).then(function() {
+    showMsg('msg-vers', true, 'Versement enregistre dans Google Sheets !');
+    document.getElementById('v-nat').value = '';
+    document.getElementById('v-mt').value = '';
+    btn.disabled = false; btn.textContent = 'Enregistrer le versement';
+  }).catch(function(e) {
+    if (e === 'non_connecte') showMsg('msg-vers', false, 'Connecte-toi via le bouton en haut.');
+    else if (e === 'token_expire') showMsg('msg-vers', false, 'Session expiree, reconnecte-toi.');
+    else showMsg('msg-vers', false, 'Erreur : ' + e);
+    btn.disabled = false; btn.textContent = 'Enregistrer le versement';
+  });
 }
 </script>
 </body>
